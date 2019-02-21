@@ -1,0 +1,51 @@
+public V get(K key, P parameter) {
+	//若没有实现的接口，则抛异常
+    Objects.requireNonNull(parameter);
+	//清除过期缓存
+    expungeStaleEntries();
+	//将ClassLoader包装成CacheKey, 作为一级缓存的key
+    Object cacheKey = WeakCache.CacheKey.valueOf(key, refQueue);
+
+	//拿一级缓存获取二级缓存
+    ConcurrentMap<Object, Supplier<V>> valuesMap = map.get(cacheKey);
+    if (valuesMap == null) {
+		//CAS放入，这里复习下putIfAbsent(key,value)，存在的key对应的值则不进行put，并返回原来的值，若不存在则放入value,返回null
+		//复习下
+        ConcurrentMap<Object, Supplier<V>> oldValuesMap
+                = map.putIfAbsent(cacheKey,
+                valuesMap = new ConcurrentHashMap<>());
+		//如果有值，使用已有的值
+        if (oldValuesMap != null) {
+            valuesMap = oldValuesMap;
+        }
+    }
+	//返回按实现的接口类的数量，二级缓存subKey的值为Key0,Key[1],Key[2],KeyX ,其中key0=new Object();
+    Object subKey = Objects.requireNonNull(subKeyFactory.apply(key, parameter));
+    Supplier<V> supplier = valuesMap.get(subKey);
+    WeakCache.Factory factory = null;
+
+    while (true) {
+        if (supplier != null) {
+            V value = supplier.get();
+            if (value != null) {
+                return value;
+            }
+        }
+        if (factory == null) {
+            factory = new WeakCache.Factory(key, parameter, subKey, valuesMap);
+        }
+
+        if (supplier == null) {
+            supplier = valuesMap.putIfAbsent(subKey, factory);
+            if (supplier == null) {
+                supplier = factory;
+            }
+        } else {
+            if (valuesMap.replace(subKey, supplier, factory)) {
+                supplier = factory;
+            } else {
+                supplier = valuesMap.get(subKey);
+            }
+        }
+    }
+}

@@ -39,7 +39,7 @@ public class ProxyFactory {
     public Object getProxyInstance(){
         Object proxy = Proxy.newProxyInstance(
                 target.getClass().getClassLoader(),//目标对象使用的类加载器
-                target.getClass().getInterfaces(),//目标对象实现的所有接口
+                target.getClass().getInterfaces(),//目标对象实现的所有接口类的二进制文件集合
                 new InvocationHandler() {
                     @Override
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
