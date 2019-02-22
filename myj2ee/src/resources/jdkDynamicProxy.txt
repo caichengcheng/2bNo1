@@ -21,7 +21,9 @@ public V get(K key, P parameter) {
     }
 	//返回按实现的接口类的数量，二级缓存subKey的值为Key0,Key[1],Key[2],KeyX ,其中key0=new Object();
     Object subKey = Objects.requireNonNull(subKeyFactory.apply(key, parameter));
+    //也就是说实际上存储的是（classLoader,resultMap<subKey,Class<?>[] interfaces> ）
     Supplier<V> supplier = valuesMap.get(subKey);
+    //factory是生成目标对象二进制文件的 工厂
     WeakCache.Factory factory = null;
 
     while (true) {
