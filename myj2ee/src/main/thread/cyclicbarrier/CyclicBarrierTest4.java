@@ -5,6 +5,11 @@ import java.util.concurrent.CyclicBarrier;
 /**
  * create by caichengcheng
  * date:2019-01-25
+ *
+ * 运行结果：
+ * 线程t是否被中断？  结果：false
+ * 同步屏障的阻塞线程数量：0
+ * 同步屏障中的阻塞线程是否被中断了：true
  */
 public class CyclicBarrierTest4 {
     static CyclicBarrier c  = new CyclicBarrier(2);
