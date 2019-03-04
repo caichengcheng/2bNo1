@@ -1,7 +1,12 @@
 package nio;
 
 import java.nio.ByteBuffer;
+import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.Test;
 
@@ -18,8 +23,8 @@ public class MyBuffer {
     /**
      *  一：ByteBuffer 继承自Buffer ,有几个属性要注意下下
      *      capacity：buffer的最大容量
-     *      position: 当前的读取的位置
-     *      limit：当前可读取的最大容量
+     *      position: 当前的读取的位置下标
+     *      limit：当前可读取的最大容量下标
      *      mark:可以认为是个标记，可通过reset()，将position 回置到 mark的位置
      *  二：关于ByteBuffer 对象的两种获取方式
      *  allocate(int capacity）和 allocateDirect(int capacity)
@@ -35,13 +40,40 @@ public class MyBuffer {
     @Test
     public void test1(){
         ByteBuffer byteBuffer = ByteBuffer.allocate(10);
+        System.out.println("------allocate------");
+        System.out.println(byteBuffer);
+//        ByteBuffer.allocateDirect(10);
         String str = "abcde";
         //put() 将数据放入缓存区中
+        System.out.println("------put()------");
         byteBuffer.put(str.getBytes(),0,str.length());
-        System.out.println("position="+byteBuffer.position());
-        System.out.println("limit="+byteBuffer.limit());
-        System.out.println("capacity="+byteBuffer.capacity());
 
-        LinkedList list = new LinkedList();
+        System.out.println(byteBuffer);
+
+        //flip() 从头开始读取
+        System.out.println("------flip()------");
+        byteBuffer.flip();
+
+        System.out.println(byteBuffer);
+
+
+        //get() 开始获取数据
+        byte[] bytes = new byte[str.length()];
+        byteBuffer.get(bytes);
+        System.out.println("------get()------");
+        System.out.println(byteBuffer);
+
+
+        //mark() 标记当前位置,通过reset（）将position 回置到mark的位置
+        byteBuffer.mark();
+        System.out.println("------mark()------");
+        System.out.println(byteBuffer);
+
+        //clear() 清除数据,将position 、 limit 和 mark 回置到初始位置，但是里面的数据依然存在，如get(0)还是能读取到 "a"
+        byteBuffer.clear();
+        System.out.println("------clear()------");
+        System.out.println(byteBuffer);
+        System.out.println((char)byteBuffer.get(0));
+
     }
 }
