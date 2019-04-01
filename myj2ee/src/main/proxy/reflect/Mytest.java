@@ -1,4 +1,4 @@
-package test;
+package proxy.reflect;
 
 import com.alibaba.fastjson.JSON;
 
@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ *  反射
  * 将对象转成map: 要求属性是数组类型的，转换成json
  * @author caichengcheng
  *         time: 2019/2/20.

@@ -32,6 +32,7 @@ public class TestWrite {
         protected String show(A obj){
             return ("A and A");
         }
+
     }
     static class B extends A{
         public String show(A obj){

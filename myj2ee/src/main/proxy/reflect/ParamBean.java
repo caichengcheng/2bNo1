@@ -1,4 +1,7 @@
-package test;
+package proxy.reflect;
+
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * @author caichengcheng
@@ -39,5 +42,23 @@ public class ParamBean {
             System.out.print("6");
         }
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ParamBean paramBean = (ParamBean) o;
+        return Objects.equals(name, paramBean.name) &&
+                Arrays.equals(father, paramBean.father) &&
+                Arrays.equals(mother, paramBean.mother);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(name);
+        result = 31 * result + Arrays.hashCode(father);
+        result = 31 * result + Arrays.hashCode(mother);
+        return result;
     }
 }
