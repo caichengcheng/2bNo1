@@ -20,7 +20,6 @@ public class Productor implements Runnable {
             blockQueue.put(sequence);
         } catch (InterruptedException e) {
             e.printStackTrace();
-            ;
         }
     }
 }
