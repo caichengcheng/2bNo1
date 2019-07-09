@@ -43,6 +43,12 @@ public  class MyMap {
 
     }
 
+    public static void main(String[] args) {
+        HashMap<Object, Object> m1 = new HashMap<>(13);
+        System.out.println(m1.size());
+        m1.put(1,1);
+        System.out.println(m1.size());
+    }
 
 
 

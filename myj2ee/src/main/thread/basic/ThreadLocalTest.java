@@ -16,7 +16,14 @@ public class ThreadLocalTest {
         System.out.println(objectThreadLocal.get());
         objectThreadLocal.remove();
         System.out.println(objectThreadLocal.get());
+        objectThreadLocal.set(2L);
+        System.out.println(objectThreadLocal.get());
 
+
+        ThreadLocal<Long> tl2 = new ThreadLocal<>();
+        tl2.set(3L);
+        System.out.println(objectThreadLocal.get());
+        System.out.println(tl2.get());
 
     }
 }
