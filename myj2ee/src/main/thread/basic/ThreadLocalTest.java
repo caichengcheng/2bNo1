@@ -28,5 +28,6 @@ public class ThreadLocalTest {
         System.out.println(objectThreadLocal.get());
         System.out.println(tl2.get());
 
+
     }
 }
