@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/caichengchengRepository.iml" filepath="$PROJECT_DIR$/.idea/caichengchengRepository.iml" />
       <module fileurl="file://$PROJECT_DIR$/myj2ee/myj2ee.iml" filepath="$PROJECT_DIR$/myj2ee/myj2ee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/myspring/myspring.iml" filepath="$PROJECT_DIR$/myspring/myspring.iml" />
     </modules>
   </component>
 </project>

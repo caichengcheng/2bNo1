@@ -15,7 +15,7 @@ public class Customer implements Runnable{
     public void run() {
         try {
             Object result = blockQueue.get();
-            System.out.println("Thread Name:" + Thread.currentThread().getName() + " get:" + result);
+            System.out.println("Thread Name:" + Thread.currentThread().getName() + "      get:" + result);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

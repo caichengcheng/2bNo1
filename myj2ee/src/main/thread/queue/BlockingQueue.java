@@ -15,29 +15,25 @@ public class BlockingQueue {
     //队列，先进先出
     private final Object[] queue;
 
-    //get锁
-    private static ReentrantLock getLock = new ReentrantLock();
-
-    //put锁
-    private static ReentrantLock putLock = new ReentrantLock();
+    private static ReentrantLock lock = new ReentrantLock();
 
     //是否可以get条件
-    private static Condition notEmpty = getLock.newCondition();
+    private  Condition notEmpty = lock.newCondition();
 
     //是否可以put条件
-    private static Condition notFull = putLock.newCondition();
+    private  Condition notFull = lock.newCondition();
 
     //队列容量
     private final int capacity;
 
     //get的位置
-    private AtomicInteger putIndex = new AtomicInteger(0);
+    private int putIndex ;
 
     //put的位置
-    private AtomicInteger getIndex = new AtomicInteger(0);
+    private int getIndex ;
 
     //队列中元素的个数
-    private AtomicInteger count = new AtomicInteger(0);
+    private int count ;
 
     /**
      * 初始化队列
@@ -55,28 +51,25 @@ public class BlockingQueue {
      */
     public Object get() throws InterruptedException {
         //获取get锁
-        getLock.lockInterruptibly();
+        lock.lockInterruptibly();
         try {
             //队列为空，阻塞当前线程
-            while (count.get() < 1) {
+            while (count < 1) {
                 notEmpty.await();
             }
             //获取get的位置，拿取元素
-            int getPos = getIndex.getAndIncrement();
-            Object result = queue[getPos];
-            queue[getPos] = null;
+            Object result = queue[getIndex];
+            queue[getIndex] = null;
             //到达队尾，重队头重新开始
-            if ((getPos + 1) == capacity) {
-                getIndex.set(0);
+            if (++getIndex == capacity) {
+                getIndex=0;
             }
-            //队列元素个数-1，-1前队列已满，-1后唤醒阻塞的put线程
-            if (count.getAndDecrement() == capacity) {
-                notFull.signalAll();
-            }
+            count-- ;
+            notFull.signal();
             return result;
         } finally {
             //释放锁
-            getLock.unlock();
+            lock.unlock();
         }
     }
 
@@ -87,52 +80,33 @@ public class BlockingQueue {
      */
     public void put(Object object) throws InterruptedException {
         //获取put锁
-        putLock.lockInterruptibly();
+        lock.lockInterruptibly();
         try {
             //队列已满，阻塞当前线程
-            while (count.get() == capacity) {
+            while (count == capacity) {
                 notFull.await();
             }
             //获取put的位置，放入元素
-            int putPos = putIndex.getAndIncrement();
-            queue[putPos] = object;
+            queue[putIndex] = object;
             //到达队尾，重队头重新开始
-            if ((putPos + 1) == capacity) {
-                putIndex.set(0);
+            if (++putIndex == capacity) {
+                putIndex = 0;
             }
             //队列元素个数+1，+1前队列为空，+1后唤醒阻塞的get线程
-            if (count.getAndIncrement() < 1) {
-                signalNotEmpty();
-            }
+            count++;
+            notEmpty.signal();
         }
         finally {
             //释放锁
-            putLock.unlock();
+            lock.unlock();
         }
     }
 
-    private static void signalNotEmpty() {
-        getLock.lock();
-        try {
-            notEmpty.signal();
-        } finally {
-            getLock.unlock();
-        }
-    }
-
-    private static void signalNotFull() {
-        putLock.lock();
-        try {
-            notFull.signal();
-        } finally {
-            putLock.unlock();
-        }
-    }
 
     public static void main(String[] args) {
         BlockingQueue blockQueue = new BlockingQueue(10);
         ExecutorService service = Executors.newFixedThreadPool(20);
-        for (int i = 0 ; i < 10 ; i++) {
+        for (int i = 0 ; i < 13 ; i++) {
             Customer customer = new Customer(blockQueue);
             Productor productor = new Productor(blockQueue,i);
             service.execute(customer);

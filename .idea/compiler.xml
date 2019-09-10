@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="myj2ee" />
+        <module name="myspring" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
       <module name="myj2ee" target="1.8" />
+      <module name="myspring" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
