@@ -9,8 +9,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MessageServiceImpl implements MessageService {
-//    @Autowired
-//    private IUserService userService;
+    /**
+     * 用于debug 在初始化过程中，对Autowired 属性的装配
+     * @return
+     */
+    @Autowired
+    private IUserService userService;
     @Override
     public String getMessage() {
         return "hello world";
