@@ -48,6 +48,15 @@ public  class MyMap {
         System.out.println(m1.size());
         m1.put(1,1);
         System.out.println(m1.size());
+        ArrayList<Integer> integers = new ArrayList<>();
+        ArrayList<String> s = new ArrayList<>();
+        s.add("a");
+        integers.add(1);
+        System.out.println(integers.get(0).getClass());
+        System.out.println(integers.getClass());
+        System.out.println(s.getClass());
+
+
     }
 
 

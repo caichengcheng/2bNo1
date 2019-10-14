@@ -2,6 +2,8 @@ package springframwork;
 
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import service.Car;
+import service.IUserService;
 import service.MessageService;
 
 /**
@@ -20,5 +22,9 @@ public class SpringTest {
         MessageService messageService = applicationContext.getBean(MessageService.class);
         // 这句将输出: hello world
         System.out.println(messageService.getMessage());
+
+//        Car bean = (Car)applicationContext.getBean("car");
+
+
     }
 }
