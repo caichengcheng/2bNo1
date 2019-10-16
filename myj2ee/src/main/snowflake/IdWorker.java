@@ -1,6 +1,19 @@
 package snowflake;
 
+import java.util.concurrent.atomic.AtomicLongArray;
+
 /**
+ * 简单的雪花算法：1位符号位，41位时间戳，5业务，5机器，12位sequence（4095个冗余）
+ * 问题：如何解决时钟回拨问题？
+ * 方案1：可以记录下上一次生成id的时间lastTime，本次生成如果时钟回拨了，也就是说curTime < lastTime ，生成id用的时间戳用的lastTime，把sequence+1,来生成id，如果sequence
+ *       已经到达上限，则报错，返回-1；
+ *    优点：只维护上次时间，成本低
+ *    缺点：若时钟回拨后，并发请求量大，有可能出现sequence不够用
+ * 方案2：存储一个容量为200的AtomicLongArray数组,index就是0-199 ，index=时间戳&(200-1)，value=id，也就是说能允许存最近200次不同毫秒生成的id,每次新生成id的时候，
+ *       都那curTime & 199 ,得到index，然后取出对应位置的上次id,拿id右移22位，得到inxTime,若id为空，或者inxTime<curTime,表示正常情况，正常生产id,并覆盖即可，
+ *       若inxTime >= curTime,代表着回拨情况/同个毫秒竞争情况，则直接拿对应位置的sequence+1，即可
+ *    优点：风险均摊，降低方案sequence超上限的概率
+ *    缺点：维护一个数组，提高了内存成本
  * create by caichengcheng
  * date:2019-05-22
  */
