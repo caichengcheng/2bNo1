@@ -1,6 +1,5 @@
 package snowflake;
 
-import java.util.concurrent.atomic.AtomicLongArray;
 
 /**
  * 简单的雪花算法：1位符号位，41位时间戳，5业务，5机器，12位sequence（4095个冗余）
