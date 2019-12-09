@@ -7,7 +7,7 @@
     <!--<bean id="messageService" class="service.MessageServiceImpl"/>-->
     <context:component-scan base-package="service"/>
 
-    <bean id="car" class="service.CarFactoryBean">
+    <!--<bean id="car" class="service.CarFactoryBean" scope="prototype">
         <property name="detail" value="BMW;200000"/>
-    </bean>
+    </bean>-->
 </beans>
