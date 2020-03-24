@@ -10,4 +10,8 @@
     <!--<bean id="car" class="service.CarFactoryBean" scope="prototype">
         <property name="detail" value="BMW;200000"/>
     </bean>-->
+    <bean id="english" class="bean.EnglishBook" scope="prototype"/>
+    <bean id="bookTest" class="bean.BookTest" scope="singleton">
+        <lookup-method name="getBook" bean="english"/>
+    </bean>
 </beans>

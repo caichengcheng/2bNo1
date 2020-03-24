@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 //@Scope(value = "prototype")
-//@Lazy
+@Lazy
 public class Persion {
 //    private Car c = SpringInit.getBean(Car.class);
 //    @Autowired
@@ -21,10 +21,6 @@ public class Persion {
 
 //    public Persion() {
 //    }
-    @Autowired
-    public Persion(Car c) {
-        this.c = c;
-    }
 
     public Car getC() {
         return c;

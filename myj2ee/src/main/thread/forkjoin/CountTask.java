@@ -35,7 +35,8 @@ public class CountTask extends RecursiveTask<Integer> {
     protected Integer compute() {
         int sum = 0;
         //任务量是否大于自己定义的阈值（大于则判定是大任务，需要fork-join）
-        boolean canCompute = (start - end) >>> 1 <= HOLD ;
+        boolean canCompute = (end - start) >>> 1 <= HOLD ;
+        System.out.println(start+","+end);
         if(canCompute){
             for (int i = start;i<=end ;i++){
                 sum += i;
@@ -56,7 +57,7 @@ public class CountTask extends RecursiveTask<Integer> {
     public static void main(String[] args) {
         ForkJoinPool forkJoinPool = new ForkJoinPool();
         //execute无返回值
-        forkJoinPool.execute(new CountTask(1,8));
+//        forkJoinPool.execute(new CountTask(1,8));
         //submit有返回值
         ForkJoinTask submit = forkJoinPool.submit(new CountTask(1, 8));
         try {

@@ -1,22 +1,606 @@
 import hwp.ListNode;
+import org.junit.Test;
+import sun.tools.java.ClassPath;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.Stack;
+import java.util.function.Predicate;
 
 /**
  * create by caichengcheng
  * date:2019-05-29
  */
 public class LeetCode {
+    static Object o = new Object();
     public static void main(String[] args) {
+//        System.out.println(new LeetCode().groupAnagrams(new String[]{"eat","tea","tan","ate","nat","bat"}));
+//        int[][] a = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
+//        List<Integer> integers = new LeetCode().spiralOrder(a);
+//        System.out.println(new LeetCode().canJump(new int[]{3,2,1,0,4}));
         LeetCode leetCode = new LeetCode();
-       //"mississippi"
-        //"issip"
-        int i = leetCode.strStr("mississippi", "issip");
+        Integer i1 = 12;
+        Integer i2 = -128;
 
+        System.out.println( leetCode.lengthOfLongestSubstringForNo3("aabaab!bb"));
+    }
+    //no.57插入区间
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        ArrayList<int[]> res = new ArrayList<int[]>();
+        int left = intervals[0][0];
+        int right = intervals[0][1];
+        for(int i=1;i<intervals.length;i++){
+            if(newInterval[0]>right){
+                res.add(intervals[i]);
+            }else if(false){
+
+            }
+
+        }
+        return res.toArray(new int[0][]);
+    }
+
+    //no.56
+    public int[][] merge(int[][] intervals) {
+        List<int[]> list = new ArrayList<>();
+        Arrays.sort(intervals, (a,b)->a[0]-b[0]);
+
+        for(int i=0;i<intervals.length;i++){
+            int left = intervals[i][0] , right = intervals[i][1];
+            while(i+1 < intervals.length && right>=intervals[i+1][0]){
+                right = Math.max(right,intervals[i+1][1]);
+                i++;
+            }
+            list.add(new int[]{left,right});
+        }
+        return list.toArray(new int[0][]);
+    }
+
+    //no.55
+    public boolean canJump(int[] nums) {
+        if(nums.length == 1 ){
+            return nums[0] >=0;
+        }
+        int curLength= 0,maxLength = 0;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i] == 0 && maxLength <= i){
+                return false;
+            }
+            curLength = i+nums[i];
+            if(maxLength < curLength){
+                maxLength = curLength;
+                if(maxLength>= nums.length-1){
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+    //no.54
+    public List<Integer> spiralOrder(int[][] matrix) {
+        ArrayList<Integer> result = new ArrayList<>();
+        if(matrix.length == 0){
+            return result;
+        }
+        int z = 0,
+            y = matrix[0].length-1,
+            s = 0,
+            x = matrix.length -1;
+        int i=0,j=0;
+        int k = 1;//1向右，2向下，3向左，4向上
+        int num = matrix.length * matrix[0].length;
+        while(true){
+            if(k==1){
+                if(j<y){
+                    result.add(matrix[i][j]);
+                    j++;
+                }else if(j==y){
+                    result.add(matrix[i][j]);
+                    i++;
+                    s++;
+                    k = 2;
+                }
+            }else if(k==2){
+                if(i<x){
+                    result.add(matrix[i][j]);
+                    i++;
+                }else if(i==x){
+                    result.add(matrix[i][j]);
+                    y--;
+                    j--;
+                    k = 3;
+                }
+            }else if(k==3){
+                if(j>z){
+                    result.add(matrix[i][j]);
+                    j--;
+                }else if(j==z){
+                    result.add(matrix[i][j]);
+                    x--;
+                    i--;
+                    k=4;
+                }
+            }else if(k==4){
+                if(i>s){
+                    result.add(matrix[i][j]);
+                    i--;
+                }else if(i==s){
+                    result.add(matrix[i][j]);
+                    z++;
+                    j++;
+                    k=1;
+                }
+            }
+            if(result.size() == num){
+                break;
+            }
+        }
+        return result;
+    }
+    //no.53
+    public int maxSubArray(int[] nums) {
+        int max= nums[0],tmp=nums[0];
+        for(int i=1;i<nums.length;i++){
+            if(tmp > 0){
+                tmp+=nums[i];
+            }else{
+                tmp = nums[i];
+            }
+            max = Math.max(max,tmp);
+        }
+        return max;
+    }
+    //no.50
+    public double myPow(double x, int n) {
+        if(n < 0){
+            x = 1/x;
+            n = -n;
+        }
+        return fastPow(x,n);
+    }
+    private double fastPow(double x, long n) {
+        if(n == 0){
+            return 1;
+        }
+        if(n == 1){
+            return x;
+        }
+        double half = fastPow(x,n/2);
+        if(n%2 == 0){
+            return half * half;
+        }else{
+            return half * half * x;
+        }
+    }
+    //no.49
+    public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> result = new ArrayList<>();
+        HashMap<String, List<String>> map = new HashMap<>();
+        for(int i=0;i<strs.length;i++){
+            char[] chars = strs[i].toCharArray();
+            Arrays.sort(chars);
+            String tmp = String.valueOf(chars);
+            List<String> ms = map.get(tmp);
+            if(ms!=null){
+                ms.add(strs[i]);
+            }else{
+                ArrayList<String> strings = new ArrayList<>();
+                strings.add(strs[i]);
+                map.put(tmp,strings);
+                result.add(strings);
+            }
+        }
+        return result;
+    }
+
+    //no.48
+    public void rotate(int[][] matrix) {
+        for(int i=0;i<matrix.length;i++){
+            for(int j = i;j<matrix[i].length;j++){
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = tmp;
+            }
+        }
+        for(int i=0;i<matrix.length;i++){
+            for(int j=0;j<matrix[i].length/2;j++){
+                matrix[i][j] = matrix[i][j] ^ matrix[i][matrix[i].length - j-1];
+                matrix[i][matrix[i].length - j-1] = matrix[i][j]^matrix[i][matrix[i].length - j-1];
+                matrix[i][j] =matrix[i][j] ^matrix[i][matrix[i].length - j-1];
+            }
+        }
+    }
+
+    //no.47
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        ArrayList<List<Integer>> result = new ArrayList<>();
+        if(nums.length ==0){
+            return result;
+        }
+        Arrays.sort(nums);
+        dopermuteUnitque(nums,new boolean[nums.length],new Stack<Integer>(),result);
+        return result;
+    }
+    private void dopermuteUnitque(int[] nums,boolean[] use,Stack<Integer> stack,ArrayList<List<Integer>>  result){
+        if(stack.size() == nums.length ){
+            result.add(new ArrayList<>(stack));
+        }
+        for(int i = 0;i<nums.length;i++){
+            if(i > 0 && nums[i] == nums[i-1] && !use[i-1] ){
+                continue;
+            }
+            stack.push(nums[i]);
+            use[i] = true;
+            dopermuteUnitque(nums,use,stack,result);
+            stack.pop();
+            use[i] = false;
+
+        }
+    }
+
+
+    //no.46
+    public List<List<Integer>> permute(int[] nums) {
+        ArrayList<List<Integer>> result = new ArrayList<>();
+        if(nums.length ==0){
+            return result;
+        }
+        dopermute(nums,new boolean[nums.length],new Stack<Integer>(),result);
+        return result;
+    }
+    private void dopermute(int[] nums,boolean[] use,Stack<Integer> stack,List<List<Integer>> result){
+        if(stack.size() == nums.length){
+            result.add(new ArrayList<>(stack));
+        }
+        for(int i = 0;i<nums.length;i++){
+            if(use[i]){
+                continue;
+            }
+            stack.push(nums[i]);
+            use[i] = true;
+            dopermute(nums,use,stack,result);
+            stack.pop();
+            use[i] = false;
+
+        }
+    }
+
+    //no.44
+    public int jump(int[] nums) {
+        int step=0;
+        int maxIndex = 0;
+        int end= 0;
+        for(int i = 0;i<nums.length-1;i++){
+            maxIndex = Math.max(maxIndex ,nums[i]+i);
+            if(i == end){
+                end = maxIndex ;
+                step++;
+            }
+        }
+        return step;
+    }
+    //no.43
+    public String multiply(String num1, String num2) {
+        if(num1.equals("0") || num2.equals("0")){
+            return "0";
+        }
+        int[]res = new int[num1.length() + num2.length()];
+        int n1=0,n2=0;
+        for(int i=num1.length() -1 ;i>=0;i--){
+            n1 = num1.charAt(i) - '0';
+            for(int j=num2.length()-1 ;j>=0;j--){
+                n2 = num2.charAt(j) - '0';
+                int k = res [j+i+1] + n1 * n2;
+                res [j+i+1] = k %10  ;
+                res[i +j] += k /10;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0;i< res.length ;i++){
+            if(sb.length() == 0 && 0==res[i]){
+                continue;
+            }
+            sb.append(res[i]);
+        }
+        return sb.toString();
+
+    }
+    //no.42
+    public int trap(int[] height) {
+        int right = height.length - 1,left = 0,rightMax = 0,leftMax = 0,cap = 0;
+        while(right > left){
+            if(height[left] < height[right] ){
+                if (height[left] > leftMax) {
+                    leftMax = height[left] ;
+                }else{
+                    cap += leftMax - height[left];
+                }
+                left++;
+            }else{
+                if (height[right] > rightMax) {
+                    rightMax = height[right];
+                }else{
+                    cap += rightMax - height[right];
+                }
+                right--;
+            }
+        }
+        return cap;
+    }
+    //no.41
+    public int firstMissingPositive(int[] nums) {
+        //思路:第一次遍历判断数组是否包含1，
+        int n = nums.length;
+
+        // 基本情况
+        int contains = 0;
+        for (int i = 0; i < n; i++){
+            if (nums[i] == 1) {
+                contains++;
+                break;
+            }
+
+        }
+
+        if (contains == 0) {
+            return 1;
+        }
+
+        // nums = [1]
+        if (n == 1)
+        {
+            return 2;
+        }
+
+        // 用 1 替换负数，0，
+        // 和大于 n 的数
+        // 在转换以后，nums 只会包含
+        // 正数
+        for (int i = 0; i < n; i++)
+        {
+            if ((nums[i] <= 0) || (nums[i] > n))
+            {
+                nums[i] = 1;
+            }
+        }
+
+        // 使用索引和数字符号作为检查器
+        // 例如，如果 nums[1] 是负数表示在数组中出现了数字 `1`
+        // 如果 nums[2] 是正数 表示数字 2 没有出现
+        for (int i = 0; i < n; i++) {
+            int a = Math.abs(nums[i]);
+            // 如果发现了一个数字 a - 改变第 a 个元素的符号
+            // 注意重复元素只需操作一次
+            if (a == n) {
+                nums[0] = -Math.abs(nums[0]);
+            }
+            else
+            {
+                nums[a] = - Math.abs(nums[a]);
+            }
+        }
+
+        // 现在第一个正数的下标
+        // 就是第一个缺失的数
+        for (int i = 1; i < n; i++) {
+            if (nums[i] > 0)
+            {
+                return i;
+            }
+        }
+
+        if (nums[0] > 0)
+        {
+            return n;
+        }
+
+        return n + 1;
+    }
+
+    //no.40
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        if(candidates.length == 0){
+            return res;
+        }
+        Arrays.sort(candidates);
+        doCombinationSum2(0,candidates.length,target,new Stack<Integer>(),candidates,res);
+
+        return res;
+    }
+
+    private void doCombinationSum2(int start, int end, int target, Stack<Integer> list,int[] candidates, List<List<Integer>> res) {
+        if(target == 0){
+            res.add(new ArrayList<>(list));
+            return;
+        }
+        for(int i=start;i<end && target -candidates[i] >=0 ;i++){
+            if(i>start && candidates[i] == candidates[i-1]){
+                continue;
+            }
+
+            list.push(candidates[i]);
+            doCombinationSum2(i+1,end,target-candidates[i],list,candidates,res);
+            list.pop();
+        }
+    }
+
+    //no.39
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        if(candidates.length == 0){
+            return res;
+        }
+        doCombinationSum(0,candidates.length,target,new Stack<Integer>(),candidates,res);
+
+        return res;
+    }
+
+    private void doCombinationSum(int start, int end, int target, Stack<Integer> list,int[] candidates, List<List<Integer>> res) {
+        if(target == 0){
+            res.add(new ArrayList<>(list));
+            return;
+        }
+        for(int i=start;i<end ;i++){
+            if(target- candidates[i] >=0){
+                continue;
+            }
+            list.push(candidates[i]);
+            doCombinationSum(i,end,target-candidates[i],list,candidates,res);
+            list.pop();
+        }
+    }
+
+
+    //no.35
+    public int searchInsert(int[] nums, int target) {
+        int r = nums.length - 1,l=0,mid=0;
+        if(target > nums[r]){
+            return r+1;
+        }else if(target < nums[l]){
+            return 0;
+        }
+
+        while(l <= r){
+            if(target > nums[r]){
+                return r+1;
+            }else if(target < nums[l]){
+                return l-1;
+            }
+            mid = l+(r-l)/2;
+            if(nums[mid] == target){
+                return mid;
+            }
+            if(nums[mid] < target && nums[mid+1] > target){
+                return mid +1;
+            }
+            if(nums[mid] < target ){
+                l = mid+1;
+            }else{
+                r = mid -1;
+            }
+        }
+        return 0;
+    }
+    //no.34
+    public int[] searchRange(int[] nums, int target) {
+        int l = 0,r=nums.length-1,mid=0;
+        int[] res = new int[]{-1,-1};
+        while(l < r){
+            mid=l+(r-l) /2;
+            if(nums[mid] == target){
+                int m=mid,n=mid;
+                boolean lb = true ,rb = true;
+                while( lb || rb){
+                    if(lb){
+                        if(m-1>=0 && nums[m-1] == target){
+                            m--;
+                        }else{
+                            lb = false;
+                        }
+                    }
+                    if(rb){
+                        if(n+1 <=nums.length-1 && nums[n+1] == target){
+                            n++;
+                        }else{
+                            rb = false;
+                        }
+                    }
+                }
+                res[0] = m;
+                res[1] = n;
+                return res;
+            }else if(nums[mid] > target){
+                r = mid-1;
+            }else{
+                l = mid +1;
+            }
+        }
+        return res;
+    }
+    //最长无重复子串
+    public int lengthOfLongestSubstringForNo3(String s) {
+        char[] sc = s.toCharArray();
+        HashMap<Character,Integer> map = new HashMap();
+        int res = 0,l=0,r=0;
+        for(int i=0;i<sc.length;i++){
+            if(map.containsKey(sc[i])){
+                l = Math.max(map.get(sc[i])+1,l);
+            }
+                r=i;
+
+            map.put(sc[i],i);
+            res = Math.max(res,r-l+1);
+        }
+        return res;
+    }
+    //no.2 两个链表之和
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        int tag = 0;
+        ListNode res = new ListNode(0);
+        ListNode head = res;
+        while(l1!=null || l2 != null){
+            int i1 = l1==null?0:l1.val;
+            int i2 = l2==null?0:l2.val;
+            int val = i1 + i2 + tag;
+            if(val >= 10){
+                tag = 1;
+                val = val -10;
+            }else{
+                tag = 0;
+            }
+            res.next = new ListNode(val);
+            res = res.next;
+
+            if(l1 != null){
+                l1 = l1.next;
+            }
+            if(l2 != null){
+                l2 = l2.next;
+            }
+        }
+        if(tag == 1){
+            res.next = new ListNode(1);
+        }
+        return head.next;
+    }
+
+    public int search(int[] nums, int target) {
+        int l = 0,r = nums.length -1,res= -1,mid=0;
+        while(l<=r){
+            mid= l+(r-l) /2;
+            if(nums[mid] == target){
+                res= mid;
+                break;
+            }
+            if (nums[l] > nums[mid] ) {
+                //�ұ�����
+                if(target <=nums[r] && target >=nums[mid]){
+                    //target���Ұ벿��
+                    l=  mid+1;
+                }else{
+                    r=mid-1;
+                }
+            }else{
+                //�������
+                if(target <=nums[mid] && target >=nums[l]){
+                    //target����벿��
+                    r = mid-1;
+                }else{
+                    l=mid+1;
+                }
+            }
+        }
+        return res;
     }
 
     public int longestValidParentheses(String s) {
@@ -131,11 +715,11 @@ public class LeetCode {
             return head;
         }
         pn = p.next;
-        //反转
+        //��ת
         ListNode h = reverse(start, p);
-        //串接前后
+        //����ǰ��
         head = h;
-        //递归继续
+        //�ݹ����
         start.next = reverseKGroup(pn,k);
         return head;
     }
@@ -157,7 +741,7 @@ public class LeetCode {
             n = t.next;
             nn = n.next;
             if(pre != null){
-                //串接两个分段
+                //���������ֶ�
                 pre.next = n;
             }
             if(t == head){
@@ -477,14 +1061,14 @@ public class LeetCode {
         int m = nums2.length;
         int left = (n + m + 1) / 2;
         int right = (n + m + 2) / 2;
-        //将偶数和奇数的情况合并，如果是奇数，会求两次同样的 k 。
+        //��ż��������������ϲ����������������������ͬ���� k ��
         return (getKth(nums1, 0, n - 1, nums2, 0, m - 1, left) + getKth(nums1, 0, n - 1, nums2, 0, m - 1, right)) * 0.5;
     }
 
     private int getKth(int[] nums1, int start1, int end1, int[] nums2, int start2, int end2, int k) {
         int len1 = end1 - start1 + 1;
         int len2 = end2 - start2 + 1;
-        //让 len1 的长度小于 len2，这样就能保证如果有数组空了，一定是 len1
+        //�� len1 �ĳ���С�� len2���������ܱ�֤�����������ˣ�һ���� len1
         if (len1 > len2) return getKth(nums2, start2, end2, nums1, start1, end1, k);
         if (len1 == 0) return nums2[start2 + k - 1];
 
@@ -534,10 +1118,10 @@ public class LeetCode {
 
             int isContain = s.indexOf(s.charAt(i), start);
             if(isContain < i){
-                //说明切割字符串包含了当前元素
-                //重置start
+                //˵���и��ַ��������˵�ǰԪ��
+                //����start
                 start = isContain+1;
-                //比较最大长度
+                //�Ƚ���󳤶�
                 curLength = i-start+1;
                 if(curLength > result){
                     result = curLength;
@@ -554,7 +1138,7 @@ public class LeetCode {
         str = str.trim();
         if (str == null || str.length() == 0) return 0;
 
-        // + - 号
+        // + - ��
         char firstChar = str.charAt(0);
         int sign = 1;
         int start = 0;
@@ -582,4 +1166,20 @@ public class LeetCode {
         return (int) res * sign;
     }
 
+    public int lengthOfLongestSubstring1(String s) {
+        //ʹ��ASCII��Աȣ�ASCII��0-127�������ø�128���ȵ�����պö�Ӧ
+        int[] freq = new int[128];
+        int res=0;
+        int l=0,r=-1;
+        char[] c = s.toCharArray();
+        while(l<s.length()){
+            if(r+1<c.length && freq[c[r+1]]==0){
+                freq[c[++r]]++;
+            }else{
+                freq[c[l++]]--;
+            }
+            res = Math.max(res,r-l+1);
+        }
+        return res;
+    }
 }

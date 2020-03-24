@@ -17,6 +17,7 @@ public class MessageServiceImpl implements MessageService {
     private IUserService userService;
     @Override
     public String getMessage() {
+        new Thread(()->{userService.say();}).start();
         return "hello world";
     }
 

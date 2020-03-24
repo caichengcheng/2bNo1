@@ -3,6 +3,9 @@ package collection;
 import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
 import org.junit.Test;
 
+import javax.xml.transform.Source;
+import java.lang.ref.WeakReference;
+import java.sql.SQLOutput;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -41,6 +44,19 @@ public  class MyMap {
 //            AtomicInteger
         }
 
+    }
+
+    @Test
+    public void test2(){
+        //测试weakhashmap
+        WeakHashMap<String, Object> weakHashMap = new WeakHashMap<>();
+        WeakReference weakReference = new WeakReference(new Object());
+        System.out.println("weak ref before gc："+ weakReference.get());
+        weakHashMap.put(new String(),new Object());
+        System.out.println(weakHashMap.size());
+        System.gc();
+        System.out.println("weak ref after gc："+ weakReference.get());
+        System.out.println(weakHashMap.size());
     }
 
     public static void main(String[] args) {

@@ -5,4 +5,5 @@ package service;
  * date:2019-10-09
  */
 public interface IUserService {
+    void say();
 }

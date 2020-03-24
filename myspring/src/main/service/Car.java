@@ -19,7 +19,7 @@ public class Car {
 
     public Car() {
     }
-    @Autowired
+//    @Autowired
     public Car(Persion p, String name, double price) {
         this.p = p;
         this.name = name;

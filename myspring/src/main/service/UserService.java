@@ -9,4 +9,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserService implements IUserService {
+    @Override
+    public void say() {
+        System.out.println("i am user");
+    }
 }
