@@ -14,6 +14,13 @@
 
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/cglib/cglib -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
         <!--redlock 的java实现redisson-->
         <dependency>
             <groupId>org.redisson</groupId>

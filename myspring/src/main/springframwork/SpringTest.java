@@ -1,6 +1,10 @@
 package springframwork;
 
+import bean.MyFactoryBean;
+import bean.Student;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import service.Car;
 import service.IUserService;
@@ -26,5 +30,19 @@ public class SpringTest {
 //        Car bean = (Car)applicationContext.getBean("car");
 
 
+    }
+
+    /**
+     * spring 配置的三种方式：xml、注解、java代码
+     * 这里展示的是java代码
+     */
+    @Test
+    public void testConfigByJava(){
+        ApplicationContext context = new AnnotationConfigApplicationContext(MyFactoryBean.class);
+        Student student = context.getBean(Student.class);
+        System.out.println(student);
+        student.say();
+        Student student2 = context.getBean(Student.class);
+        System.out.println(student2);
     }
 }

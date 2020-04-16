@@ -1,21 +1,68 @@
-import hwp.ListNode;
-import org.junit.Test;
-import sun.tools.java.ClassPath;
-
-import java.io.File;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.PriorityQueue;
 import java.util.Stack;
-import java.util.function.Predicate;
 
 /**
+ * 各种数据结构的时间复杂度：https://www.bigocheatsheet.com/
+ * 链表
+ * 206 反转链表
+ * 24 链表两两反转
+ * 141 判断链表是否有环
+*/
+
+/**
+ * 堆栈、队列
+ * No.20 括号字符串
+ * No.232 stack->queue
+ * No.225 queue->stack
+ */
+
+/**
+ * 优先队列
+ * 703 返回数据中第K大的数
+ * 239 滑动窗口最大值
+ */
+
+/**
+ * map和set
+ * No.242 （简单）给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词 》》使用int[128]
+ * No.1（简单） 找出数组中两数之和等于target 》》HashMap<num[i],i>
+ * No.15（中等）三数之和 》》先排序，再遍历+左右指针，若三数大于target，右指针左移，若小于target,左指针右移，相等，则加入结果集，
+ *                      并且左指针右移，右指针左移，直到指针上的值不同
+ * No.18（中等）四数之和》》排序，然后target-nums[i]的值去找三数之和，有的话，就算上nums[i],加入结果集
+ */
+
+/**
+ * 树、图
+ * No.98 判断树是否是二叉搜索树
+ * No.235,236 判断二叉树中最近公共祖先
+ */
+
+
+/**
+ * 分治法 （递归）
+ * No.50 计算x的n次方 ，一定要尝试使用非递归方式去做一次
+ * No.169 找众数
+ */
+
+/**
+ * 贪心
+ * No.122 买卖股票
+ */
+
+/**
+ * 深度优先搜索和广度优先搜索
+ * No.102 对树进行广度优先遍历》》LinkList, queue.size
+ * No.104 树最大深度》》使用深度优先遍历，递归，root==null? 0 : Math.max(left,right)+1 ;
+ * No.111 树最小深度》》 广度优先遍历，首次为空就代表最小深度
+ * No.22 生成括号
+ */
+
+ /*
  * create by caichengcheng
  * date:2019-05-29
  */
@@ -29,9 +76,20 @@ public class LeetCode {
         LeetCode leetCode = new LeetCode();
         Integer i1 = 12;
         Integer i2 = -128;
-
-        System.out.println( leetCode.lengthOfLongestSubstringForNo3("aabaab!bb"));
+        Stack<Character> stack = new Stack();
+        stack.push('a');
+        PriorityQueue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return 0;
+            }
+        });
+        i1.intValue();
+        System.out.println( leetCode.myPow2(2,-2));
     }
+
+
+
     //no.57插入区间
     public int[][] insert(int[][] intervals, int[] newInterval) {
         ArrayList<int[]> res = new ArrayList<int[]>();
@@ -181,6 +239,23 @@ public class LeetCode {
             return half * half * x;
         }
     }
+    //no.50
+    public double myPow2(double x, int n) {
+        if(n < 0){
+            x = 1/x;
+            n = -n;
+        }
+        double res = 1;
+        while(n > 0){
+            if((n & 1) == 1 ){
+                res *= x;
+            }
+            x*=x;
+            n=n>>1;
+        }
+        return res;
+    }
+
     //no.49
     public List<List<String>> groupAnagrams(String[] strs) {
         List<List<String>> result = new ArrayList<>();

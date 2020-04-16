@@ -25,5 +25,14 @@ public class Friend implements Cloneable, Serializable {
         }
         return null;
     }
+    public void say(){
+        System.out.println("my friend is  "+ bestFriendName);
+    }
 
+    public Friend(String bestFriendName) {
+        this.bestFriendName = bestFriendName;
+    }
+
+    public Friend() {
+    }
 }

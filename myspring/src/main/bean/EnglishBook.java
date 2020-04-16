@@ -5,6 +5,15 @@ package bean;
  * date:2020-01-10
  */
 public class EnglishBook  extends Book{
+    private double price;
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     @Override
     protected void desc() {
