@@ -1,6 +1,6 @@
-package service;
+package springall.service;
 
-import bean.Book;
+import springall.bean.Book;
 
 /**
  * @author caichengcheng

@@ -1,4 +1,4 @@
-package service;
+package springall.service;
 
 /**
  * create by caichengcheng

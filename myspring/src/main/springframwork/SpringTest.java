@@ -1,14 +1,14 @@
 package springframwork;
 
-import bean.MyFactoryBean;
-import bean.Student;
+import springall.bean.MyFactoryBean;
+import springall.bean.Student;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import service.Car;
-import service.IUserService;
-import service.MessageService;
+import springall.service.Car;
+import springall.service.IUserService;
+import springall.service.MessageService;
 
 /**
  * create by caichengcheng
@@ -27,7 +27,7 @@ public class SpringTest {
         // 这句将输出: hello world
         System.out.println(messageService.getMessage());
 
-//        Car bean = (Car)applicationContext.getBean("car");
+//        Car springall.bean = (Car)applicationContext.getBean("car");
 
 
     }

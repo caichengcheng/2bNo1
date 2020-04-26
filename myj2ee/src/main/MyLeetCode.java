@@ -1,12 +1,39 @@
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author caichengcheng
  * date:2020-03-20
  */
 public class MyLeetCode {
+    public static void main(String[] args) {
+        System.out.println(new MyLeetCode().myAtoi("42"));
+    }
+    public int myAtoi(String str) {
+        str = str.trim();
+        int res = 0,max=Integer.MAX_VALUE/10,min=Integer.MIN_VALUE/10;
+        //true 正数 ，false 负数
+        boolean tag = true;
+        int i=0 ;
+        if(str.charAt(0) == '-'){
+            tag = false;
+            i=1;
+        }
+        for(;i<str.length();i++){
+            if((!Character.isDigit(str.charAt(i))) || res == Integer.MAX_VALUE || res == Integer.MIN_VALUE ){
+                break;
+            }
+            Integer k = Integer.valueOf(str.substring(i,i+1));
+            if(res > max || (res==max && k>=7)) res = Integer.MAX_VALUE;
+            if(res < min || (res==min && k>=8)) res = Integer.MIN_VALUE;
+            if(tag){
+                res = res * 10 +k;
+            }else{
+                res = res * 10 - k;
+            }
+        }
+        return res;
+    }
+
     /**
      * no3.给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
      * 最简单实现：使用map记录重复字符的角标+双指针
@@ -55,8 +82,4 @@ public class MyLeetCode {
     }
 
 
-    public static void main(String[] args) {
-        System.out.println( new MyLeetCode().lengthOfLongestSubstring2("aabaa"));
-
-    }
 }

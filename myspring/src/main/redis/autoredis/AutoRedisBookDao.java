@@ -1,6 +1,6 @@
 package redis.autoredis;
 
-import bean.EnglishBook;
+import springall.bean.EnglishBook;
 import org.springframework.stereotype.Component;
 
 

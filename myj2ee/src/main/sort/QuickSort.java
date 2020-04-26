@@ -2,8 +2,6 @@ package sort;
 
 import hwp.ListNode;
 
-import javax.xml.soap.Node;
-import java.io.FileReader;
 import java.util.Arrays;
 
 /**
@@ -25,11 +23,11 @@ public class QuickSort {
         int i = l, j=r;
         int tmp = array[i];
         while(i < j){
-            //从右往左找到第一个大于tmp的位置
+            //从右往左找到第一个小于tmp的位置
             while( i< j && tmp <= array[j]){
                 j--;
             }
-            //到这里，有两种情况，1是找到了第一个，2是右边没有一个数比array[i]小
+            //到这里，有两种情况，1是找到了第一个，2是右边没有一个数比tmp小
             if(i < j){
                 //这里if判断，是针对第一种情况，进行换位，将找到的第一个较小值，置换array[i]
                 array[i++] = array[j];

@@ -1,4 +1,4 @@
-package bean;
+package springall.bean;
 
 /**
  * @author caichengcheng
@@ -8,5 +8,9 @@ public class ChineseBook extends Book {
     @Override
     protected void desc() {
         System.out.println(this + ": chinese book");
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Student.o);
     }
 }

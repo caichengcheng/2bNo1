@@ -1,11 +1,13 @@
 package redis.autoredis;
 
-import bean.EnglishBook;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import springall.bean.EnglishBook;
 import com.alibaba.fastjson.JSON;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 @ComponentScan("redis")
+@EnableAspectJAutoProxy
 public class AutoRedisTest {
     public static void main(String[] args) {
 //        ClassPathXmlApplicationContext ioc = new ClassPathXmlApplicationContext("applicationContext.xml");

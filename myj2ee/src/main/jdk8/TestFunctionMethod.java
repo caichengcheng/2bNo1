@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  * date:2019-03-28
  *
  *
- * 函数式接口编程，在java.util.function 包下定义的函数式接口
+ * 函数式接口编程，在java.springall.util.function 包下定义的函数式接口
  * 	1.BiConsumer<T,U>  ： 代表了一个接受两个输入参数的操作，并且不返回任何结果
  * 	2.BiFunction<T,U,R>  ：代表了一个接受两个输入参数的方法，并且返回一个结果
  * 	3.BinaryOperator<T>  ：代表了一个作用于于两个同类型操作符的操作，并且返回了操作符同类型的结果

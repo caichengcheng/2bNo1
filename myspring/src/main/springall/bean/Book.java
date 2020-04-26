@@ -1,4 +1,4 @@
-package bean;
+package springall.bean;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

@@ -1,4 +1,4 @@
-package mybatis;
+package springall.mybatis;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,6 +1,6 @@
 package redis.autoredis;
 
-import bean.EnglishBook;
+import springall.bean.EnglishBook;
 
 public interface IAutoRedisBookDao {
     String keyPre = "集群名：业务：key前缀";

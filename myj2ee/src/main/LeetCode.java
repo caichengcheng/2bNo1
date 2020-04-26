@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Stack;
@@ -60,8 +61,29 @@ import java.util.Stack;
  * No.104 树最大深度》》使用深度优先遍历，递归，root==null? 0 : Math.max(left,right)+1 ;
  * No.111 树最小深度》》 广度优先遍历，首次为空就代表最小深度
  * No.22 生成括号
+ *
  */
 
+/**
+ * 动态规划
+ * No.70 爬楼梯
+ * No.120 三角形最小路径的和
+ * No.152 乘积最大子数列
+ * No.300 最长上升子序列
+ * NO.121、122、123、309、188、714 买卖股票的最佳时机
+ */
+
+
+/**
+ * 其他面试题
+ * No.70 爬楼梯
+ * No.200 岛屿个数
+ * No.103 二叉树锯齿形遍历
+ * No.110 平衡二叉树
+ * No.19 删除链表的倒数第N个节点
+ * No.83 删除排序链表的重复元素
+ * No.33 搜索旋转排序数组
+ */
  /*
  * create by caichengcheng
  * date:2019-05-29
@@ -88,7 +110,49 @@ public class LeetCode {
         System.out.println( leetCode.myPow2(2,-2));
     }
 
-
+    public int numIslands(char[][] grid) {
+        if(grid == null || grid.length == 0){
+            return 0;
+        }
+        //行数
+        int x = grid.length;
+        //列数
+        int y = grid[0].length;
+        int res = 0;
+        LinkedList<Integer> queue=new LinkedList();queue.offer(1);
+        //bfs
+        for(int i=0;i<x;i++ ){
+            for(int j=0;j<y;j++){
+                if(grid[i][j] == '1'){
+                    res++;
+                    queue.offer(i*y+j);
+                    grid[i][j] ='0';
+                    while(queue.size()>0){
+                        int index = queue.poll();
+                        int indexi = index / y;
+                        int indexj = index % y;
+                        if(indexi>0 && grid[indexi-1][indexj] == '1'){
+                            grid[indexi-1][indexj] = '0';
+                            queue.offer((indexi-1)*y + indexj);
+                        }
+                        if(indexi+1<x && grid[indexi+1][indexj] == '1'){
+                            grid[indexi+1][index] = '0';
+                            queue.offer((indexi+1)*y + indexj);
+                        }
+                        if(indexj>0 && grid[indexi][indexj-1] == '1'){
+                            grid[indexi][indexj-1] = '0';
+                            queue.offer(indexi*y + indexj-1);
+                        }
+                        if(indexj +1<y && grid[indexi][indexj+1] == '1'){
+                            grid[indexi][indexj+1] = '0';
+                            queue.offer(indexi*y + indexj+1);
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
 
     //no.57插入区间
     public int[][] insert(int[][] intervals, int[] newInterval) {

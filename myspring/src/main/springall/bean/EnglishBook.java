@@ -1,4 +1,4 @@
-package bean;
+package springall.bean;
 
 /**
  * @author caichengcheng

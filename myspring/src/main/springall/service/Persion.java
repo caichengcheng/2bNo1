@@ -1,11 +1,8 @@
-package service;
+package springall.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
+import springall.util.SpringInit;
 
 /**
  * @author caichengcheng
@@ -15,9 +12,9 @@ import org.springframework.stereotype.Component;
 //@Scope(value = "prototype")
 @Lazy
 public class Persion {
-//    private Car c = SpringInit.getBean(Car.class);
+    private Car c = SpringInit.getBean(Car.class);
 //    @Autowired
-    private Car c;
+//    private Car c;
 
 //    public Persion() {
 //    }
