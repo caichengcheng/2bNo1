@@ -1,6 +1,14 @@
 <component name="ArtifactManager">
   <artifact type="war" name="myj2ee:war">
     <output-path>$PROJECT_DIR$/myj2ee/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>false</exploded>
+        <module>myj2ee</module>
+        <packaging>war</packaging>
+        <unpackNestedArchives>false</unpackNestedArchives>
+      </options>
+    </properties>
     <root id="archive" name="myj2ee.war">
       <element id="artifact" artifact-name="myj2ee:war exploded" />
     </root>

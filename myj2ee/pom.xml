@@ -11,7 +11,11 @@
 
     <name>myj2ee Maven Webapp</name>
     <url>http://www.example.com</url>
-
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.10.RELEASE</version>
+    </parent>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/cglib/cglib -->
@@ -19,6 +23,11 @@
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
             <version>3.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!--redlock 的java实现redisson-->
